@@ -25,7 +25,6 @@ export default function App({navigation}) {
             fontSize: 30,
             fontWeight: '500',
             fontFamily: 'Tahoma',
-            letterSpacing: 5,
             color: '#489fb5'
           },
           headerStyle: {
