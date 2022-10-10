@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -18,7 +19,7 @@ export default function App({navigation}) {
         <Stack.Screen 
         name="HomeScreen" 
         component={HomeScreen}
-        options={{
+        options={({ navigation }) => ({
           headerTitle: "FitnessFinder",
           headerTitleStyle: {
             fontSize: 30,
@@ -31,15 +32,11 @@ export default function App({navigation}) {
             height: 96
 
           },
-          // headerRight: () => (
-          //   <Button
-          //   title="Add a friend"
-          //   onPress={() => navigation.navigate('AddFriend')}
-              
-          //   />
-          // )
-
-        }} />
+          headerRight: () => (
+            <Icon name="user-plus" size={28} color="#303030" onPress={() => navigation.navigate('AddFriend')} />),
+          headerLeft: () => (
+            <Icon name="calendar-plus" size={30} color="#303030" onPress={() => navigation.navigate('AddClass')} />) 
+        })} />
         <Stack.Screen 
         name="AddClass" 
         component={AddClass} 
