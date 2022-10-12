@@ -1,23 +1,41 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, Button, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, Alert, TouchableOpacity, Button, TextInput, View } from 'react-native';
 
-function AddFriend(){
+//import {TouchableOpacity} from 'react-native-gesture-handler'
+function AddFriend({navigation}){
    // const [btnColor, setBtnColor] = useState('#c7c7c7');
    // const textEntered = () => {
     //    setBtnColor('#6b6b6b');
     //  };
 
     const [empty, setEmpty] = useState(true)
+    const [username, setUsername] = useState('')
 
     const onChange = (text) => {
-
       if(text === ""){
         setEmpty(true)
       }
-      else
+      else{
         setEmpty(false)
+        setUsername(text)
+      }
     }
+
+    const onFriendRequest = () => {
+    Alert.alert(
+      "Request sent!",
+      "Username: " + username + "\nName: Olivia F.",
+      [
+       
+        { text: "OK", onPress: () => navigation.navigate('HomeScreen') }
+      ]
+    ); 
+    //
+    
+  }
+
+
 
     // const onChangeText = () => {
     //   setTextEntered(true)
@@ -29,10 +47,10 @@ function AddFriend(){
     <TextInput
           style={{ height: 40, width: "95%", borderColor: 'gray', borderWidth: 1,  borderRadius: 10, height: 50, marginBottom: 20, padding: 10}}
           placeholder ="Enter a username"
+          value = {username}
           onChangeText={text => onChange(text)}
         />
     <TouchableOpacity
-
           style={{
             marginRight:40,
             marginLeft:40,
@@ -41,8 +59,9 @@ function AddFriend(){
             borderRadius: 30,
             backgroundColor: empty ? '#c7c7c7' : '#4a4a4a'
           }}
+          onPress={() => onFriendRequest()}
           >
-          
+
           <Text style={styles.buttonText}>Send Friend Request </Text>
     </TouchableOpacity>
    
