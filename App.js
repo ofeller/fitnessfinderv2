@@ -23,8 +23,8 @@ export default function App({navigation}) {
           headerTitle: "FitnessFinder",
           headerTitleStyle: {
             fontSize: 30,
-            fontWeight: '500',
-            fontFamily: 'Tahoma',
+            fontWeight: '400',
+            fontFamily: 'Arial',
             color: '#489fb5'
           },
           headerStyle: {
@@ -41,6 +41,7 @@ export default function App({navigation}) {
         component={AddClass} 
         options={{
           headerBackTitle: "Back",
+          //headerShown: false
         
         
           }}
@@ -50,6 +51,12 @@ export default function App({navigation}) {
         component={AddFriend}
         options={{
           headerBackTitle: "Back",
+          headerTitle: "Add a friend",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: '400',
+            fontFamily: 'Arial'
+          }
           }}  />
     </Stack.Navigator>
     
