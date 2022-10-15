@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, Alert, TouchableOpacity, Button, TextInput, View } from 'react-native';
-
-//import {TouchableOpacity} from 'react-native-gesture-handler'
+//import 'react-native-gesture-handler';
 function AddFriend({navigation}){
    // const [btnColor, setBtnColor] = useState('#c7c7c7');
    // const textEntered = () => {
@@ -18,8 +19,8 @@ function AddFriend({navigation}){
       }
       else{
         setEmpty(false)
-        setUsername(text)
       }
+      setUsername(text)
     }
 
     const onFriendRequest = () => {
@@ -27,12 +28,11 @@ function AddFriend({navigation}){
       "Request sent!",
       "Username: " + username + "\nName: Olivia F.",
       [
-       
-        { text: "OK", onPress: () => navigation.navigate('HomeScreen') }
+        { text: "OK", onPress: () => navigation.navigate('HomeScreen', {param: username}) }
       ]
     ); 
     //
-    
+   
   }
 
 
@@ -59,7 +59,7 @@ function AddFriend({navigation}){
             borderRadius: 30,
             backgroundColor: empty ? '#c7c7c7' : '#4a4a4a'
           }}
-          onPress={() => onFriendRequest()}
+          onPress={ () => empty ? { } : onFriendRequest() }
           >
 
           <Text style={styles.buttonText}>Send Friend Request </Text>

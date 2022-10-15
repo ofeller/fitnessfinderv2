@@ -41,7 +41,12 @@ export default function App({navigation}) {
         component={AddClass} 
         options={{
           headerBackTitle: "Back",
-          //headerShown: false
+          headerTitle: "Add a class",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: '400',
+            fontFamily: 'Arial'
+          }
         
         
           }}
