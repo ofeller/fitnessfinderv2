@@ -72,9 +72,7 @@ function AddFriend({navigation}){
 }
 
 const styles = StyleSheet.create({
-    button:{
-        
-      },
+    
       buttonText:{
           color:'#fff',
           textAlign:'center',

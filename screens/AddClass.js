@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Text, Button, View, Linking } from 'react-native'
+import { Text, Button, StyleSheet, TouchableOpacity, View, Linking, Date } from 'react-native'
 import SelectBox from 'react-native-multi-selectbox'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import moment from "moment";
 
 // Options data must contain 'item' & 'id' keys
 
@@ -73,10 +74,11 @@ const K_OPTIONS = [
   },
 ]
 
-function Test() {
+function AddClass() {
   const [selectedTeam, setSelectedTeam] = useState({})
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [incomplete, setIncomplete] = useState(true)
+  const [dateText, setDateText] = useState("MM-DD-YYYY")
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -87,9 +89,21 @@ function Test() {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    console.warn("A date has been picked: ", date)
+    const dateTimeString = moment(date).format("dddd MM/DD/YYYY h:mma")
+    setDateText(dateTimeString);
     hideDatePicker();
   };
+
+//   const onInfoEntered = () => {
+//     if(text === ""){
+//       setIncomplete(true)
+//     }
+//     else{
+//       setIncomplete(false)
+//     }
+//     setUsername(text)
+//   }
 
 
   return (
@@ -105,8 +119,7 @@ function Test() {
       <SelectBox 
         label="Class Name"
         options={K_OPTIONS}
-        labelStyle={{fontSize: 15, paddingBottom: 10, color: 'gray'}}
-        
+        labelStyle={{fontSize: 15, paddingBottom: 10, color: 'black'}}
         value={selectedTeam}
         onChange={onChange()}
         hideInputFilter={false}
@@ -114,12 +127,24 @@ function Test() {
         searchIconColor='#489fb5'
       />
       <View style={{ height: 40 }} />
-      <Text style={{ fontSize: 15, paddingBottom: 10, color: 'gray' }}>Date </Text>
+      <Text style={{ fontSize: 15, paddingBottom: 10, color: 'black' }}>Date </Text>
       
 
 
       <View>
-      <Button title="Show Date Picker" onPress={showDatePicker} />
+        
+      <TouchableOpacity  style={{
+            paddingTop: 8,
+            paddingRight: 18,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center"  }} onPress={showDatePicker}> 
+      <Text style={{color: '#c7c7c7', fontSize: 18}}>{dateText}</Text>
+        <Icon name="calendar" size={20} color="#489fb5"></Icon>
+        </TouchableOpacity>
+       
+
+
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="datetime"
@@ -129,13 +154,39 @@ function Test() {
       />
     </View>
 
+    <View
+  style={{
+    borderBottomColor: '#c7c7c7',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingTop: 10
+  }}
+/>
+
+<View>
+{/* <TouchableOpacity
+          style={{
+            marginRight:40,
+            marginLeft:40,
+            marginTop:5,
+            padding: 20,
+            borderRadius: 30,
+           // backgroundColor: empty ? '#c7c7c7' : '#4a4a4a'
+          }}
+         // onPress={ () => empty ? { } : onFriendRequest() }
+          ></TouchableOpacity> */}
+
+
+</View>
+
 
     </View>
+    
   )
   function onChange() {
+    //setIncomplete(false)
     return (val) => setSelectedTeam(val)
   }
 }
 
-export default Test
+export default AddClass
 
