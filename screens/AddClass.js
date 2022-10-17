@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, Button, StyleSheet, TouchableOpacity, View, Linking, Date } from 'react-native'
+import { Text, Button, Alert, StyleSheet, TouchableOpacity, View, Linking, Date } from 'react-native'
 import SelectBox from 'react-native-multi-selectbox'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -74,11 +74,13 @@ const K_OPTIONS = [
   },
 ]
 
-function AddClass() {
-  const [selectedTeam, setSelectedTeam] = useState({})
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [incomplete, setIncomplete] = useState(true)
-  const [dateText, setDateText] = useState("MM-DD-YYYY")
+function AddClass({navigation}) {
+  const [selectedClass, setSelectedClass] = useState({})
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+  const [classEntered, setClassEntered] = useState(false)
+  const [dateEntered, setDateEntered] = useState(false)
+  //const [incomplete, setIncomplete] = useState(true)
+  const [dateText, setDateText] = useState("Select")
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -92,17 +94,34 @@ function AddClass() {
     console.warn("A date has been picked: ", date)
     const dateTimeString = moment(date).format("dddd MM/DD/YYYY h:mma")
     setDateText(dateTimeString);
+    setDateEntered(true);
     hideDatePicker();
   };
 
-//   const onInfoEntered = () => {
-//     if(text === ""){
-//       setIncomplete(true)
-//     }
-//     else{
+  const onChange = (val) => {
+     setClassEntered(true)
+     setSelectedClass(val)
+  };
+
+
+  const onClassSubmitted = () => {
+    Alert.alert(
+      "Class added!",
+      JSON.stringify(selectedClass.item).substring(1, JSON.stringify(selectedClass.item).length-1) + "\n" + dateText,
+      [
+        { text: "OK",
+         onPress: () => navigation.navigate('HomeScreen') 
+    }
+      ]
+    ); 
+    //
+   
+  }
+
+//   const checkComplete = () => {
+//     if(classEntered && dateEntered){
 //       setIncomplete(false)
 //     }
-//     setUsername(text)
 //   }
 
 
@@ -120,14 +139,14 @@ function AddClass() {
         label="Class Name"
         options={K_OPTIONS}
         labelStyle={{fontSize: 15, paddingBottom: 10, color: 'black'}}
-        value={selectedTeam}
-        onChange={onChange()}
+        value={selectedClass}
+        onChange={onChange}
         hideInputFilter={false}
         arrowIconColor='#489fb5'
         searchIconColor='#489fb5'
       />
       <View style={{ height: 40 }} />
-      <Text style={{ fontSize: 15, paddingBottom: 10, color: 'black' }}>Date </Text>
+      <Text style={{ fontSize: 15, paddingBottom: 10, color: 'black' }}>Date/Time </Text>
       
 
 
@@ -139,7 +158,7 @@ function AddClass() {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center"  }} onPress={showDatePicker}> 
-      <Text style={{color: '#c7c7c7', fontSize: 18}}>{dateText}</Text>
+      <Text style={{color: dateEntered ? 'black' : '#c7c7c7', fontSize: 18}}>{dateText}</Text>
         <Icon name="calendar" size={20} color="#489fb5"></Icon>
         </TouchableOpacity>
        
@@ -163,17 +182,24 @@ function AddClass() {
 />
 
 <View>
-{/* <TouchableOpacity
+<TouchableOpacity
           style={{
             marginRight:40,
             marginLeft:40,
-            marginTop:5,
+            marginTop:50,
             padding: 20,
+            width: 200,
+            alignSelf: 'center',
             borderRadius: 30,
-           // backgroundColor: empty ? '#c7c7c7' : '#4a4a4a'
+           backgroundColor: 
+    (dateEntered && classEntered) ? 
+           '#4a4a4a' 
+          : '#c7c7c7'
           }}
-         // onPress={ () => empty ? { } : onFriendRequest() }
-          ></TouchableOpacity> */}
+        onPress={ () => (classEntered && dateEntered) ? onClassSubmitted() : {} }
+          >
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
 
 
 </View>
@@ -182,11 +208,23 @@ function AddClass() {
     </View>
     
   )
-  function onChange() {
-    //setIncomplete(false)
-    return (val) => setSelectedTeam(val)
-  }
+//   function onChange() {
+//     //setClassEntered(true)
+//     return (val) => setSelectedTeam(val)
+//   }
 }
+
+const styles = StyleSheet.create({
+    
+    buttonText:{
+        color:'#fff',
+        textAlign:'center',
+        paddingLeft : 10,
+        paddingRight : 10,
+        fontSize: 15
+    }
+})
+
 
 export default AddClass
 
