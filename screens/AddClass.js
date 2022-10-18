@@ -4,6 +4,7 @@ import SelectBox from 'react-native-multi-selectbox'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from "moment";
+import { useNavigation } from '@react-navigation/native';
 
 // Options data must contain 'item' & 'id' keys
 
@@ -81,6 +82,7 @@ function AddClass({navigation}) {
   const [dateEntered, setDateEntered] = useState(false)
   //const [incomplete, setIncomplete] = useState(true)
   const [dateText, setDateText] = useState("Select")
+  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -91,8 +93,8 @@ function AddClass({navigation}) {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date)
-    const dateTimeString = moment(date).format("dddd MM/DD/YYYY h:mma")
+    //console.warn("A date has been picked: ", date)
+    const dateTimeString = moment(date).format("dddd MM/DD/YY h:mma")
     setDateText(dateTimeString);
     setDateEntered(true);
     hideDatePicker();
@@ -110,7 +112,12 @@ function AddClass({navigation}) {
       JSON.stringify(selectedClass.item).substring(1, JSON.stringify(selectedClass.item).length-1) + "\n" + dateText,
       [
         { text: "OK",
-         onPress: () => navigation.navigate('HomeScreen') 
+         onPress: () => navigation.navigate({
+            name: 'HomeScreen', 
+            params: {className: "• " + selectedClass.item, dateAndTime: dateText},
+            merge: true
+         })
+           
     }
       ]
     ); 

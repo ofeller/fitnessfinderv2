@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './screens/HomeScreen';
 import AddFriend from './screens/AddFriend';
 import AddClass from './screens/AddClass';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -19,6 +20,7 @@ export default function App({navigation}) {
         <Stack.Screen 
         name="HomeScreen" 
         component={HomeScreen}
+        initialParams={{ className: '', dateAndTime: '' }}
         options={({ navigation }) => ({
           headerTitle: "FitnessFinder",
           headerTitleStyle: {
